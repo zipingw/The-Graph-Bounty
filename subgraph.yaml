@@ -1,0 +1,41 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Censored
+    network: mainnet
+    source:
+      address: "0xDa22422592Ee3623c8d3c40Fe0059CdEcF30CA79"
+      abi: Censored
+      startBlock: 14147395
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AdminApproved
+        - AdminRevoked
+        - Approval
+        - ApprovalForAll
+        - OwnershipTransferred
+        - Transfer
+      abis:
+        - name: Censored
+          file: ./abis/Censored.json
+      eventHandlers:
+        - event: AdminApproved(indexed address,indexed address)
+          handler: handleAdminApproved
+        - event: AdminRevoked(indexed address,indexed address)
+          handler: handleAdminRevoked
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/censored.ts
